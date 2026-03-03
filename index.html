@@ -211,7 +211,7 @@ if(batchCode){
     .then(response => response.json())
     .then(data => {
         if(data[batchCode]){
-            document.getElementById("batchImage").src = currentBatch.image;
+            document.getElementById("batchImage").src = data[batchCode].image;
             document.getElementById("batchName").innerText = data[batchCode].name;
             driveLink = data[batchCode].drive;
         } else {
@@ -231,4 +231,5 @@ function openMemories(){
 
 </body>
 </html>
+
 
