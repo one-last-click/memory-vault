@@ -2,127 +2,165 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>One Last Click</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Last Click</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #f093fb 40%, #f5576c 60%, #4facfe 80%, #00f2fe 100%);
-    background-attachment: fixed;
-    color: #1a1a2e;
-    text-align: center;
-    min-height: 100vh;
+body{
+    font-family:'Segoe UI', sans-serif;
+    min-height:100vh;
+    color:#F8F9FA;
+    display:flex;
+    flex-direction:column;
+    background-color:#2C3E50;
+    position:relative;
+}
+
+/* Academic Pattern Background */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Crect x='10' y='10' width='30' height='40' rx='4'/%3E%3Ccircle cx='80' cy='30' r='15'/%3E%3Cpolygon points='60,80 75,100 45,100'/%3E%3Crect x='85' y='70' width='25' height='35' rx='3'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat:repeat;
+    background-size:140px 140px;
+    pointer-events:none;
 }
 
 /* HEADER */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 25px 50px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(25px);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 30px;
+    background:#2D6A4F;
 }
 
-.brand {
-    font-size: 30px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #4facfe, #43e97b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* Brand Section */
+.brand-wrapper{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#F8F9FA;
 }
 
-.contact {
-    font-size: 15px;
-    color: #333;
-    font-weight: 600;
-    padding: 12px 22px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 25px;
-    text-decoration: none;
+/* Logo Image */
+.brand-logo{
+    height:38px;
+    width:auto;
+    object-fit:contain;
+}
+
+/* Brand Name */
+.brand-name{
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:0.5px;
+}
+
+/* Contact Button */
+.contact{
+    font-size:14px;
+    color:#F8F9FA;
+    text-decoration:none;
+    border:1px solid #F8F9FA;
+    padding:6px 14px;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+.contact:hover{
+    background:#F8F9FA;
+    color:#1B4332;
 }
 
 /* MAIN */
-.main {
-    padding: 100px 40px 60px;
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:50px 20px;
 }
 
-.photo-frame {
-    display: inline-block;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 35px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+/* UNIVERSAL IMAGE FRAME */
+.image-box{
+    width:90%;
+    max-width:400px;
+    aspect-ratio: 3 / 4;
+    background:#000000;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(5,0,0,0.5);
 }
 
-.photo-frame img {
-    width: 100%;
-    max-width: 1000px;
-    border-radius: 25px;
+/* IMAGE AUTO FIT */
+.image-box img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:#FAF9F6;
 }
 
-.batch-name {
-    margin-top: 45px;
-    font-size: 40px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #43e97b, #4facfe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* Batch Name */
+.batch-name{
+    margin-top:20px;
+    font-size:18px;
+    letter-spacing:1px;
 }
 
-.memories-btn {
-    margin-top: 60px;
-    padding: 22px 70px;
-    font-size: 20px;
-    font-weight: 700;
-    border: none;
-    border-radius: 50px;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 20px 40px rgba(79, 172, 254, 0.4);
-    transition: 0.3s ease;
+/* BUTTON */
+.memories-btn{
+    margin-top:30px;
+    padding:12px 45px;
+    border:none;
+    border-radius:30px;
+    background:#F8F9FA;
+    color:#1B4332;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.memories-btn:hover {
-    transform: translateY(-5px);
+.memories-btn:hover{
+    background:#d8f3dc;
+    transform:translateY(-3px);
 }
 
 /* FOOTER */
-footer {
-    margin-top: 100px;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.95);
+footer{
+    text-align:center;
+    padding:18px;
+    background:#2D6A4F;
+    font-size:13px;
 }
 
-.social-links a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
+.social-links a{
+    margin:0 10px;
+    color:#F8F9FA;
+    text-decoration:none;
+    opacity:0.8;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 15px;
-    }
+.social-links a:hover{
+    opacity:1;
+}
 
-    .batch-name {
-        font-size: 30px;
-    }
-
-    .memories-btn {
-        width: 90%;
+/* MOBILE */
+@media(max-width:600px){
+    .image-box{
+        max-width:320px;
     }
 }
 </style>
@@ -131,67 +169,64 @@ footer {
 <body>
 
 <header>
-    <div class="brand">One Last Click</div>
-    <a href="mailto:example@gmail.com" class="contact">✉️ Contact Us</a>
+    <!-- Brand clickable -->
+    <a href="#" class="brand-wrapper">
+        <img src="images/logo.png" class="brand-logo" alt="OLC">
+        <div class="brand-name">One Last Click</div>
+    </a>
+
+    <a href="mailto:example@gmail.com" class="contact">Contact Us</a>
 </header>
 
 <div class="main">
-    <div class="photo-frame">
-        <img id="batchImage" src="" alt="Batch Image">
+
+    <div class="image-box">
+        <img id="batchImage" src="" alt="Portrait">
     </div>
 
     <div class="batch-name" id="batchName"></div>
 
     <button class="memories-btn" onclick="openMemories()">
-        ✨ Explore Memories
+        Explore Memories
     </button>
+
 </div>
 
 <footer>
     <div class="social-links">
-        <a href="#">Whatsapp</a>
         <a href="#">Instagram</a>
-        <a href="#">X</a>
-        <a href="#">Facebook</a>
+        <a href="#">Whatsapp</a>
         <a href="#">Website</a>
     </div>
 </footer>
 
 <script>
-let currentBatch = null;
+let driveLink = "";
 
-async function loadBatch() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+const params = new URLSearchParams(window.location.search);
+const batchCode = params.get("code");
 
-    if (!code) {
-        document.getElementById("batchName").innerText = "Batch Code Missing";
-        return;
-    }
-
-    try {
-        const response = await fetch("batches.json");
-        const batches = await response.json();
-
-        if (batches[code]) {
-            currentBatch = batches[code];
-            document.getElementById("batchName").innerText = currentBatch.name;
-            document.getElementById("batchImage").src = currentBatch.image;
+if(batchCode){
+    fetch("batches.json")
+    .then(response => response.json())
+    .then(data => {
+        if(data[batchCode]){
+            document.getElementById("batchImage").src = "images/" + data[batchCode].image;
+            document.getElementById("batchName").innerText = data[batchCode].name;
+            driveLink = data[batchCode].drive;
         } else {
-            document.getElementById("batchName").innerText = "Invalid Batch Code";
+            document.getElementById("batchName").innerText = "Invalid Code";
         }
+    });
+} else {
+    document.getElementById("batchName").innerText = "Batch Code Missing";
+}
 
-    } catch (error) {
-        document.getElementById("batchName").innerText = "Error Loading Data";
+function openMemories(){
+    if(driveLink){
+        window.open(driveLink, "_blank");
     }
 }
-
-function openMemories() {
-    if (!currentBatch) return;
-    window.open(currentBatch.drive, '_blank');
-}
-
-loadBatch();
 </script>
 
 </body>
