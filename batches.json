@@ -2,7 +2,7 @@
   "2026A00001": {
     "name": "IT Batch 2026",
     "image": "images/2026A00001.jpg",
-    "drive": "https://drive.google.com/drive/folders/1eoPqfjztWn35b6xYtNIHxp2UE3OfoW1P"
+    "drive": "https://drive.google.com/drive/folders/1eoPqfjztWn35b6xYtNIHxp2UE3OfoW1P",
     "password": "it2026"
   },
   "2026A00002": {
@@ -12,6 +12,7 @@
   }
 
 }
+
 
 
 
