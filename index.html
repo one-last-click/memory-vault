@@ -282,7 +282,7 @@ document.getElementById("batchName").innerText="Batch Code Missing";
 
 function unlock(){
 
-const entered=document.getElementById("batchPassword").value;
+const entered=document.getElementById("batchPassword").value.trim();
 
 if(entered===batchPassword){
 
@@ -313,3 +313,4 @@ window.open(driveLink,"_blank");
 
 </body>
 </html>
+
