@@ -56,6 +56,24 @@ body{
     padding:10px 20px;
     cursor:pointer;
 }
+    .password-wrapper{
+position:relative;
+display:inline-block;
+}
+
+.password-wrapper input{
+padding:10px;
+padding-right:40px;
+width:220px;
+}
+
+.eye-icon{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+}
 
 /* Academic Pattern Background */
 
@@ -197,20 +215,21 @@ footer{
 <div id="passwordGate">
 <div class="password-box">
 <h2>Enter Batch Password</h2>
-<div class="password-row">
+<div class="password-wrapper">
 
 <input
 type="password"
 id="batchPassword"
-placeholder="Password"
-oninput="toggleEye()">
+placeholder="Password">
 
-<button
-id="eyeBtn"
-onclick="togglePassword()"
-style="display:none;">
-👁
-</button>
+<span class="eye-icon" onclick="togglePassword()">
+
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+<path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="black" stroke-width="2"/>
+<circle cx="12" cy="12" r="3" stroke="black" stroke-width="2"/>
+</svg>
+
+</span>
 
 </div>
 <button onclick="unlock()">Enter</button>
@@ -310,7 +329,17 @@ alert("Incorrect Password");
 }
 
 }
+function togglePassword(){
 
+const input=document.getElementById("batchPassword");
+
+if(input.type==="password"){
+input.type="text";
+}else{
+input.type="password";
+}
+
+}
 /* OPEN DRIVE */
 
 function openMemories(){
@@ -327,6 +356,7 @@ window.open(driveLink,"_blank");
 
 </body>
 </html>
+
 
 
 
