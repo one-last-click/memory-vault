@@ -1,365 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Last Click</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Last Click - Preserve Memories Forever</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow-soft: 0 8px 32px rgba(31, 38, 135, 0.37);
+            --shadow-hover: 0 12px 40px rgba(31, 38, 135, 0.5);
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a5568;
+            --accent: #f093fb;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body{
-    font-family:'Segoe UI', sans-serif;
-    min-height:100vh;
-    color:#F8F9FA;
-    display:flex;
-    flex-direction:column;
-    background-color:#2C3E50;
-    position:relative;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-/* PASSWORD SCREEN */
+        /* Subtle background patterns */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120,119,198,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,119,198,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120,219,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
 
-#passwordGate{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-}
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.6s ease-out;
+        }
 
-.password-box{
-    background:#fff;
-    color:#000;
-    padding:30px;
-    border-radius:10px;
-    text-align:center;
-}
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
-.password-box input{
-    padding:10px;
-    margin-top:10px;
-    width:200px;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.password-box button{
-    margin-top:10px;
-    padding:10px 20px;
-    cursor:pointer;
-}
-    .password-wrapper{
-position:relative;
-display:inline-block;
-}
+        .logo:hover {
+            transform: translateY(-2px);
+        }
 
-.password-wrapper input{
-padding:10px;
-padding-right:40px;
-width:220px;
-}
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-soft);
+        }
 
-.eye-icon{
-position:absolute;
-right:10px;
-top:50%;
-transform:translateY(-50%);
-cursor:pointer;
-}
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-/* Academic Pattern Background */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Crect x='10' y='10' width='30' height='40' rx='4'/%3E%3Ccircle cx='80' cy='30' r='15'/%3E%3Cpolygon points='60,80 75,100 45,100'/%3E%3Crect x='85' y='70' width='25' height='35' rx='3'/%3E%3C/g%3E%3C/svg%3E");
-    background-repeat:repeat;
-    background-size:140px 140px;
-    pointer-events:none;
-}
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
 
-/* HEADER */
+        .btn-primary {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
 
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:18px 30px;
-    background:#2D6A4F;
-}
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
 
-.brand-wrapper{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    text-decoration:none;
-    color:#F8F9FA;
-}
+        .social-icons {
+            display: flex;
+            gap: 0.5rem;
+        }
 
-.brand-logo{
-    height:38px;
-    width:auto;
-    object-fit:contain;
-}
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
 
-.brand-name{
-    font-size:20px;
-    font-weight:600;
-    letter-spacing:0.5px;
-}
+        .social-icon:hover {
+            background: rgba(255,255,255,0.9);
+            transform: scale(1.1) rotate(5deg);
+        }
 
-.contact{
-    font-size:14px;
-    color:#F8F9FA;
-    text-decoration:none;
-    border:1px solid #F8F9FA;
-    padding:6px 14px;
-    border-radius:20px;
-    transition:0.3s;
-}
+        .main-content {
+            min-height: 100vh;
+            padding: 2rem;
+            padding-top: 100px;
+            padding-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-.contact:hover{
-    background:#F8F9FA;
-    color:#1B4332;
-}
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-/* MAIN */
+        .screen.active {
+            display: block;
+        }
 
-.main{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:50px 20px;
-}
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.image-box{
-    width:95%;
-    max-width:900px;
-    overflow:hidden;
-    box-shadow:0 20px 50px rgba(5,0,0,0.5);
-}
+        .login-screen {
+            text-align: center;
+            color: white;
+        }
 
-.image-box img{
-    width:100%;
-    height:auto;
-    object-fit:contain;
-}
+        .login-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-.batch-name{
-    margin-top:20px;
-    font-size:18px;
-    letter-spacing:1px;
-}
+        .login-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
 
-.memories-btn{
-    margin-top:30px;
-    padding:12px 45px;
-    border:none;
-    border-radius:30px;
-    background:#F8F9FA;
-    color:#1B4332;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
+        #googleBtn {
+            width: 100%;
+            justify-content: center;
+        }
 
-.memories-btn:hover{
-    background:#d8f3dc;
-    transform:translateY(-3px);
-}
+        .password-screen {
+            text-align: center;
+        }
 
-/* FOOTER */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
 
-footer{
-    text-align:center;
-    padding:18px;
-    background:#2D6A4F;
-    font-size:13px;
-}
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
 
-.social-links a{
-    margin:0 10px;
-    color:#F8F9FA;
-    text-decoration:none;
-    opacity:0.8;
-}
+        .batch-name {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-.social-links a:hover{
-    opacity:1;
-}
+        .password-group {
+            position: relative;
+            margin: 2rem 0;
+        }
 
-@media(max-width:600px){
-    .image-box{
-        max-width:320px;
-    }
-}
+        .password-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: white;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
 
-</style>
+        .password-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .password-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+            transform: scale(1.02);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fecaca;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .batch-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .batch-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .batch-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 24px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Fullscreen viewer */
+        .fullscreen-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .fullscreen-viewer.active {
+            display: flex;
+        }
+
+        .fullscreen-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            transform-origin: center center;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev { left: 2rem; }
+        .next { right: 2rem; }
+
+        .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+                padding-top: 90px;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                grid-gap: 1rem;
+            }
+            
+            .glass-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Masonry grid polyfill */
+        .gallery.masonry {
+            column-count: 3;
+            column-gap: 1.5rem;
+        }
+
+        .gallery.masonry .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .gallery.masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery.masonry {
+                column-count: 1;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo" onclick="window.location.href='https://onelastclick.com'">
+            <div class="logo-icon">👋</div>
+            <div class="logo-text">One Last Click</div>
+        </div>
+        <div class="header-actions">
+            <a href="mailto:hello@onelastclick.com" class="btn btn-primary">Contact</a>
+            <div class="social-icons">
+                <a href="https://instagram.com/onelastclick" class="social-icon" target="_blank">📷</a>
+                <a href="https://wa.me/919876543210" class="social-icon" target="_blank">💬</a>
+                <a href="https://onelastclick.com" class="social-icon" target="_blank">🌐</a>
+            </div>
+        </div>
+    </header>
 
-<!-- PASSWORD POPUP -->
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-screen">
+                <h1 class="login-title">Welcome to One Last Click</h1>
+                <p class="login-subtitle">Preserving your batch memories forever</p>
+                <div id="g_id_onload"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                     data-callback="handleGoogleSignIn"
+                     data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+            </div>
+        </div>
 
-<div id="passwordGate">
-<div class="password-box">
-<h2>Enter Batch Password</h2>
-<div class="password-wrapper">
+        <!-- Password Screen -->
+        <div id="passwordScreen" class="screen">
+            <div class="glass-card">
+                <div class="batch-name" id="batchName"></div>
+                <div class="password-group">
+                    <input type="password" id="batchPassword" class="password-input" placeholder="Enter batch password">
+                    <button class="password-toggle" onclick="togglePassword()">👁️</button>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="verifyPassword()">
+                    <span id="enterBtnText">Enter Memories</span>
+                </button>
+                <div id="errorMsg" class="error-message" style="display: none;"></div>
+            </div>
+        </div>
 
-<input
-type="password"
-id="batchPassword"
-placeholder="Password">
+        <!-- Batch Gallery Screen -->
+        <div id="galleryScreen" class="screen">
+            <div class="batch-header">
+                <h1 class="batch-title" id="galleryBatchTitle"></h1>
+                <p class="batch-subtitle" id="galleryBatchSubtitle"></p>
+                <img id="coverImage" class="cover-image" alt="Batch Cover" style="display: none;">
+            </div>
+            <div id="gallery" class="gallery"></div>
+        </div>
+    </main>
 
-<span class="eye-icon" onclick="togglePassword()">
+    <!-- Fullscreen Viewer -->
+    <div id="fullscreenViewer" class="fullscreen-viewer">
+        <button class="close-btn" onclick="closeFullscreen()">×</button>
+        <button class="nav-arrow prev" onclick="prevImage()">‹</button>
+        <img id="fullscreenImage" class="fullscreen-image" alt="Fullscreen">
+        <button class="nav-arrow next" onclick="nextImage()">›</button>
+    </div>
 
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-<path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="black" stroke-width="2"/>
-<circle cx="12" cy="12" r="3" stroke="black" stroke-width="2"/>
-</svg>
+    <!-- Footer -->
+    <footer class="footer">
+        Memories preserved by <strong>One Last Click</strong>
+    </footer>
 
-</span>
-<br><br>
-</div>
-<button onclick="unlock()">Enter</button>
-</div>
-</div>
+    <script>
+        // Global state
+        let currentUser = null;
+        let batchData = null;
+        let batchCode = new URLSearchParams(window.location.search).get('code');
+        let currentImageIndex = 0;
+        let galleryImages = [];
+        let passwordVisible = false;
 
-<header>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
 
-<a href="#" class="brand-wrapper">
-<img src="images/logo.png" class="brand-logo" alt="OLC">
-<div class="brand-name">One Last Click</div>
-</a>
+        async function init() {
+            if (!batchCode) {
+                document.getElementById('loginScreen').innerHTML = `
+                    <div style="text-align: center; color: white;">
+                        <h1 style="font-size: 1.5rem;">Invalid Access</h1>
+                        <p>Please scan a valid QR code from your student ID card.</p>
+                    </div>
+                `;
+                return;
+            }
 
-<a href="mailto:onelastclick.olc@gmail.com" class="contact">Contact Us</a>
+            // Try to fetch batch data immediately
+            await fetchBatchData();
+        }
 
-</header>
+        // Google Sign-In Callback
+        function handleGoogleSignIn(response) {
+            const idToken = response.credential;
+            // In production, send idToken to your backend for verification
+            currentUser = google.accounts.id.decodeJwt(idToken);
+            showPasswordScreen();
+        }
 
-<div class="main">
+        function showPasswordScreen() {
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('passwordScreen').classList.add('active');
+            document.getElementById('batchName').textContent = batchData?.name || 'Loading...';
+        }
 
-<div class="image-box">
-<img id="batchImage" src="" alt="Portrait">
-</div>
+        async function fetchBatchData() {
+            try {
+                const response = await fetch('batches.json');
+                const batches = await response.json();
+                batchData = batches[batchCode];
+                
+                if (batchData) {
+                    document.getElementById('batchName').textContent = batchData.name;
+                    // Pre-populate gallery title for SEO
+                    document.getElementById('galleryBatchTitle').textContent = batchData.name;
+                }
+            } catch (error) {
+                console.error('Failed to load batch data:', error);
+            }
+        }
 
-<div class="batch-name" id="batchName"></div>
+        function togglePassword() {
+            const input = document.getElementById('batchPassword');
+            passwordVisible = !passwordVisible;
+            input.type = passwordVisible ? 'text' : 'password';
+            document.querySelector('.password-toggle').textContent = passwordVisible ? '🙈' : '👁️';
+        }
 
-<button class="memories-btn" onclick="openMemories()">
-Explore Memories
-</button>
+        async function verifyPassword() {
+            const password = document.getElementById('batchPassword').value;
+            
+            if (password === batchData.password) {
+                showGallery();
+            } else {
+                showError('❌ Incorrect password. Please try again.');
+            }
+        }
 
-</div>
+        function showError(message) {
+            const errorEl = document.getElementById('errorMsg');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 4000);
+        }
 
-<footer>
-<div class="social-links">
-<h4>
-<button><a href="https://www.instagram.com/onelastclick.olc/">Instagram</a></button>
-<button><a href="https://wa.me/9502342449">Whatsapp</a></button>
-<button><a href="tel:+919502342449">Call us</a></button>
-</h4>
-</div>
-</footer>
+        function showGallery() {
+            document.getElementById('passwordScreen').classList.remove('active');
+            document.getElementById('galleryScreen').classList.add('active');
+            
+            document.getElementById('galleryBatchTitle').textContent = batchData.name;
+            document.getElementById('galleryBatchSubtitle').textContent = `XYZ Engineering College • ${batchCode}`;
+            
+            // Load cover image
+            const coverImg = document.getElementById('coverImage');
+            coverImg.src = `https://cdn.onelastclick.com/${batchData.folder}/cover.jpg`;
+            coverImg.onload = () => coverImg.style.display = 'block';
+            
+            loadGallery();
+        }
 
-<script>
+        async function loadGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: white; padding: 2rem;">Loading memories...</div>';
+            
+            galleryImages = [];
+            for (let i = 1; i <= batchData.count; i++) {
+                galleryImages.push(i);
+            }
+            
+            // Masonry layout for better visual appeal
+            gallery.classList.add('masonry');
+            
+            const fragment = document.createDocumentFragment();
+            
+            for (let i = 0; i < Math.min(50, galleryImages.length); i++) {
+                const item = createGalleryItem(galleryImages[i]);
+                fragment.appendChild(item);
+            }
+            
+            gallery.innerHTML = '';
+            gallery.appendChild(fragment);
+            
+            // Lazy load remaining images on scroll
+            let loadedCount = 50;
+            window.addEventListener('scroll', () => {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 && loadedCount < galleryImages.length) {
+                    loadMoreImages(loadedCount);
+                    loadedCount += 50;
+                }
+            });
+        }
 
-let driveLink="";
-let batchPassword="";
+        function createGalleryItem(imageNum) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.onclick = () => openFullscreen(imageNum);
+            
+            const img = document.createElement('img');
+            img.dataset.src = `https://cdn.onelastclick.com/${batchData.folder}/${String(imageNum).padStart(4, '0')}.jpg`;
+            img.alt = `Memory ${imageNum}`;
+            img.loading = 'lazy';
+            
+            // Intersection Observer for lazy loading
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            observer.observe(img);
+            
+            div.appendChild(img);
+            div.style.animationDelay = `${Math.random() * 0.3}s`;
+            return div;
+        }
 
-const params=new URLSearchParams(window.location.search);
-const batchCode=params.get("code");
+        function loadMoreImages(startIndex) {
+            const gallery = document.getElementById('gallery');
+            for (let i = startIndex; i < Math.min(startIndex + 50, galleryImages.length); i++) {
+                const item = createGalleryItem(galleryImages[i]);
+                gallery.appendChild(item);
+            }
+        }
 
-if(batchCode){
+        function openFullscreen(imageIndex) {
+            currentImageIndex = galleryImages.indexOf(imageIndex);
+            document.getElementById('fullscreenViewer').classList.add('active');
+            updateFullscreenImage();
+        }
 
-fetch("batches.json")
+        function closeFullscreen() {
+            document.getElementById('fullscreenViewer').classList.remove('active');
+        }
 
-.then(response=>response.json())
+        function updateFullscreenImage() {
+            const img = document.getElementById('fullscreenImage');
+            img.src = `https://cdn.onelastclick.com/${batchData.folder}/${String(galleryImages[currentImageIndex]).padStart(4, '0')}.jpg`;
+        }
 
-.then(data=>{
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateFullscreenImage();
+        }
 
-if(data[batchCode]){
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            updateFullscreenImage();
+        }
 
-document.getElementById("batchImage").src=data[batchCode].image;
-document.getElementById("batchName").innerText=data[batchCode].name;
+        // Touch/swipe support for mobile
+        let startX = 0;
+        document.getElementById('fullscreenViewer').addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
 
-driveLink=data[batchCode].drive;
-batchPassword=data[batchCode].password;
+        document.getElementById('fullscreenViewer').addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextImage();
+                else prevImage();
+            }
+        });
 
-}
-else{
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('fullscreenViewer').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'Escape') closeFullscreen();
+            }
+        });
 
-document.getElementById("batchName").innerText="Invalid Code";
-
-}
-
-});
-
-}
-else{
-
-document.getElementById("batchName").innerText="Batch Code Missing";
-
-}
-
-/* PASSWORD CHECK */
-
-function unlock(){
-
-const entered=document.getElementById("batchPassword").value.trim();
-
-if(entered===batchPassword){
-
-document.getElementById("passwordGate").style.display="none";
-
-}
-else{
-
-alert("Incorrect Password");
-
-}
-
-}
-function togglePassword(){
-
-const input=document.getElementById("batchPassword");
-
-if(input.type==="password"){
-input.type="text";
-}else{
-input.type="password";
-}
-
-}
-/* OPEN DRIVE */
-
-function openMemories(){
-
-if(driveLink){
-
-window.open(driveLink,"_blank");
-
-}
-
-}
-
-</script>
-
+        // Prevent body scroll when fullscreen is open
+        document.getElementById('fullscreenViewer').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('fullscreenViewer')) {
+                closeFullscreen();
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
