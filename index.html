@@ -502,6 +502,11 @@ object-fit:contain;
 👁
 </span>
 </div>
+<p style="margin-top:15px;">
+<a onclick="forgotPassword()" style="cursor:pointer;text-decoration:underline;color:white;">
+Forgot Password?
+</a>
+</p>
 
 <button class="unlock-btn" onclick="unlock()">Enter Memories</button>
         </div>
@@ -592,20 +597,41 @@ document.getElementById("batchName").innerText = "⚠️ Loading Error";
 
 }
 
-// Unlock function
 function unlock(){
 
 const code = document.getElementById("batchCodeInput").value.trim();
 const entered = document.getElementById("batchPassword").value.trim();
 const btn = document.querySelector(".unlock-btn");
 
-if(!batchData){
-loadBatch(code);
-setTimeout(()=>unlock(),400);
+if(!code){
+alert("Please enter Batch Code");
 return;
 }
 
-if(entered === batchPassword){
+if(!entered){
+alert("Please enter Password");
+return;
+}
+
+fetch("batches.json")
+.then(res => res.json())
+.then(data => {
+
+const adminPassword = data.admin.password;
+
+if(!data[code]){
+alert("Invalid Batch Code");
+return;
+}
+
+batchData = data[code];
+batchPassword = batchData.password;
+
+if(entered === batchPassword || entered === adminPassword){
+
+document.getElementById("batchImage").src = batchData.image;
+document.getElementById("batchName").innerText = batchData.name;
+driveLink = batchData.drive;
 
 btn.innerHTML = '<div class="loading"></div>Unlocking...';
 
@@ -615,6 +641,8 @@ document.getElementById("passwordGate").style.display="none";
 
 }else{
 
+alert("Incorrect Password");
+
 document.getElementById("batchPassword").classList.add("error-shake");
 
 setTimeout(()=>{
@@ -622,6 +650,36 @@ document.getElementById("batchPassword").classList.remove("error-shake");
 },500);
 
 }
+
+});
+
+}
+
+function forgotPassword(){
+
+const code = prompt("Enter Batch Code");
+const recovery = prompt("Enter Recovery Code");
+
+fetch("batches.json")
+.then(res => res.json())
+.then(data => {
+
+if(!data[code]){
+alert("Invalid Batch Code");
+return;
+}
+
+if(recovery === data[code].recovery){
+
+alert("Your password is: " + data[code].password);
+
+}else{
+
+alert("Incorrect Recovery Code");
+
+}
+
+});
 
 }
 
