@@ -34,6 +34,7 @@
             overflow-x: hidden;
         }
 
+        /* Premium Animated Background */
         body::before {
             content: "";
             position: fixed;
@@ -55,8 +56,8 @@
             66% { transform: translate(-20px, 20px) scale(0.95); }
         }
 
-        /* Login Screen */
-        #loginScreen {
+        /* Premium Password Gate */
+        #passwordGate {
             position: fixed;
             top: 0;
             left: 0;
@@ -76,7 +77,7 @@
             to { opacity: 1; }
         }
 
-        .login-box {
+        .password-box {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
@@ -87,15 +88,22 @@
             box-shadow: var(--shadow-glass);
             max-width: 420px;
             width: 90%;
+            position: relative;
             animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
 
-        .login-box h2 {
+        .password-box h2 {
             font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
@@ -103,15 +111,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -0.02em;
         }
 
-        .input-group {
+        .password-wrapper {
             position: relative;
+            display: flex;
             margin-bottom: 1.5rem;
         }
 
-        .input-group input {
-            width: 100%;
+        .password-wrapper input {
+            flex: 1;
             padding: 1.25rem 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--glass-border);
@@ -124,17 +134,39 @@
             outline: none;
         }
 
-        .input-group input::placeholder {
+        .password-wrapper input::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
 
-        .input-group input:focus {
+        .password-wrapper input:focus {
             border-color: rgba(255, 255, 255, 0.4);
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
             transform: scale(1.02);
         }
 
-        .login-btn {
+        .eye-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+
+        .eye-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .unlock-btn {
             width: 100%;
             padding: 1.25rem;
             border: none;
@@ -150,52 +182,29 @@
             overflow: hidden;
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(15px);
-            margin-bottom: 1rem;
         }
 
-        .login-btn:hover {
+        .unlock-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .unlock-btn:hover::before {
+            left: 100%;
+        }
+
+        .unlock-btn:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: var(--shadow-hover);
         }
 
-        .forgot-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .forgot-link:hover {
-            color: var(--text-primary);
-        }
-
-        /* Forgot Password Modal */
-        #forgotModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(15px);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .forgot-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            padding: 2.5rem;
-            border-radius: 24px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-
-        /* Main Content */
+        /* Premium Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -216,13 +225,22 @@
             gap: 1rem;
             text-decoration: none;
             color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .brand-wrapper:hover {
+            transform: translateY(-2px);
         }
 
         .brand-logo {
             height: 45px;
-            width: auto;
-            object-fit: contain;
+            width: 45px;
+            background: rgba(255,255,255,0.2);
             border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             box-shadow: var(--shadow-soft);
             backdrop-filter: blur(10px);
         }
@@ -230,6 +248,7 @@
         .brand-name {
             font-size: 1.4rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--text-primary), rgba(255,255,255,0.8));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -244,15 +263,17 @@
             padding: 0.75rem 1.75rem;
             border-radius: 30px;
             font-weight: 600;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             backdrop-filter: blur(10px);
         }
 
         .contact:hover {
             background: rgba(255,255,255,0.2);
             transform: translateY(-3px);
+            box-shadow: var(--shadow-soft);
         }
 
+        /* Premium Main Content */
         .main {
             flex: 1;
             display: flex;
@@ -262,36 +283,37 @@
             padding: 4rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
+
 
         .image-box {
-            width: 95%;
-            max-width: 800px;
-            border-radius: 28px;
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            margin-bottom: 2rem;
-        }
+    width: 95%;
+    max-width: 800px;
+    border-radius: 28px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin-bottom: 2rem;
+}
 
-        .image-box img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 28px;
-            transition: transform 0.6s ease;
-        }
+.image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 28px;
+    transition: transform 0.6s ease;
+}
 
-        .image-box:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
+.image-box:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
 
-        .image-box:hover img {
-            transform: scale(1.02);
-        }
-
+.image-box:hover img {
+    transform: scale(1.02);
+}
         .batch-name {
             font-size: clamp(1.5rem, 3vw, 2.2rem);
             font-weight: 700;
@@ -303,7 +325,16 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
+       .brand-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
+       }
+        
         .memories-btn {
             padding: 1.25rem 4rem;
             border: none;
@@ -315,8 +346,26 @@
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--shadow-soft);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(15px);
+        }
+
+        .memories-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .memories-btn:hover::before {
+            left: 100%;
         }
 
         .memories-btn:hover {
@@ -324,18 +373,25 @@
             box-shadow: var(--shadow-hover);
         }
 
-        .memories-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
+        /* Premium Footer with Social Icons */
         footer {
             text-align: center;
             padding: 3rem 2rem;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
         .social-links {
@@ -365,9 +421,113 @@
         .social-btn:hover {
             transform: translateY(-6px) scale(1.1);
             box-shadow: var(--shadow-hover);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* Animations */
+        /* Responsive Design */
+        /* Perfect Mobile Responsive */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 1.2rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .brand-wrapper {
+        gap: 0.8rem;
+    }
+    
+    .main {
+        padding: 2rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .password-box {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+    
+    .password-wrapper input {
+        padding: 1rem 1.2rem;
+        font-size: 1rem;
+    }
+    
+    .image-box {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .batch-name {
+        font-size: 1.4rem !important;
+        padding: 0 1rem;
+        line-height: 1.3;
+    }
+    
+    .memories-btn {
+        padding: 1rem 3rem;
+        font-size: 1.1rem;
+        min-width: 280px;
+    }
+    
+    footer {
+        padding: 2rem 1rem;
+    }
+    
+    .social-links {
+        gap: 1.2rem;
+    }
+    
+    .social-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+    }
+    
+    .contact {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0.9rem 1rem;
+    }
+    
+    .brand-name {
+        font-size: 1.2rem;
+    }
+    
+    .main {
+        padding: 1.5rem 0.8rem;
+    }
+    
+    .password-box h2 {
+        font-size: 1.3rem;
+    }
+    
+    .unlock-btn, .memories-btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+    
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .social-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+
+        /* Loading Animation */
         .loading {
             display: inline-block;
             width: 20px;
@@ -392,108 +552,29 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem 1.2rem;
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .main {
-                padding: 2rem 1rem;
-                gap: 1.5rem;
-            }
-            
-            .login-box, .forgot-box {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-                width: calc(100% - 2rem);
-            }
-            
-            .image-box {
-                width: 100%;
-                max-width: 100%;
-                margin-bottom: 1.5rem;
-            }
-            
-            .batch-name {
-                font-size: 1.4rem !important;
-                padding: 0 1rem;
-                line-height: 1.3;
-            }
-            
-            .memories-btn {
-                padding: 1rem 3rem;
-                font-size: 1.1rem;
-                min-width: 280px;
-            }
-            
-            footer {
-                padding: 2rem 1rem;
-            }
-            
-            .social-links {
-                gap: 1.2rem;
-            }
-            
-            .social-btn {
-                width: 52px;
-                height: 52px;
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .social-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-            
-            .social-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-        }
     </style>
 </head>
+
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen">
-        <div class="login-box">
-            <h2>🔐 Batch Login</h2>
-            <div class="input-group">
-                <input type="text" id="batchCode" placeholder="Enter Batch Code (User ID)" maxlength="20">
+    <!-- Premium Password Gate -->
+    <div id="passwordGate">
+        <div class="password-box">
+            <h2>🔐 Enter Batch Password</h2>
+            <div class="password-wrapper">
+                <input type="password" id="batchPassword" placeholder="Your secret batch password">
+                <span class="eye-icon" onclick="togglePassword()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </span>
             </div>
-            <div class="input-group">
-                <input type="password" id="batchPassword" placeholder="Enter Password">
-            </div>
-            <button class="login-btn" onclick="login()">Login</button>
-            <a href="#" class="forgot-link" onclick="showForgotPassword(event)">Forgot Password?</a>
+            <button class="unlock-btn" onclick="unlock()">Enter Memories</button>
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div id="forgotModal">
-        <div class="forgot-box">
-            <h3>🔑 Recover Password</h3>
-            <div class="input-group">
-                <input type="text" id="forgotBatchCode" placeholder="Batch Code">
-            </div>
-            <div class="input-group">
-                <input type="text" id="recoveryCode" placeholder="8-digit Recovery Code" maxlength="8">
-            </div>
-            <button class="login-btn" onclick="recoverPassword()">Recover</button>
-            <button class="login-btn" onclick="closeForgotPassword()" style="background: rgba(255,0,0,0.3); margin-top: 1rem;">Back</button>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header style="display: none;" id="header">
+    <!-- Premium Header -->
+    <header>
         <a href="#" class="brand-wrapper">
             <img src="images/logo.png" class="brand-logo" alt="One Last Click" loading="lazy">
             <div class="brand-name">One Last Click</div>
@@ -501,142 +582,128 @@
         <a href="mailto:onelastclick.olc@gmail.com" class="contact">Contact Us</a>
     </header>
 
-    <!-- Main Content -->
-    <div class="main" style="display: none;" id="mainContent">
+    <!-- Premium Main Content -->
+    <div class="main">
         <div class="image-box">
             <img id="batchImage" src="" alt="Batch Portrait">
         </div>
         <div class="batch-name" id="batchName">Loading...</div>
-        <button class="memories-btn" onclick="openMemories()" id="memoriesBtn" disabled>
+        <button class="memories-btn" onclick="openMemories()" id="memoriesBtn">
             Explore Memories
         </button>
     </div>
 
-    <!-- Footer -->
+    <!-- Premium Footer with Clean Social Icons -->
     <footer>
-        <div>Memories preserved forever by <strong>One Last Click</strong></div>
-        <div class="social-links">
-            <a href="https://www.instagram.com/onelastclick.olc/" class="social-btn" target="_blank" title="Instagram">📷</a>
-            <a href="https://wa.me/9502342449" class="social-btn" target="_blank" title="WhatsApp">💬</a>
-            <a href="tel:+919502342449" class="social-btn" target="_blank" title="Call">📞</a>
+        <div class="footer-content">
+            <div class="footer-brand">Memories preserved forever by <strong>One Last Click</strong></div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/onelastclick.olc/" class="social-btn" target="_blank" title="Instagram">
+                    📷
+                </a>
+                <a href="https://wa.me/9502342449" class="social-btn" target="_blank" title="WhatsApp">
+                    💬
+                </a>
+                <a href="tel:+919502342449" class="social-btn" target="_blank" title="Call">
+                    📞
+                </a>
+            </div>
         </div>
     </footer>
 
     <script>
-        let currentBatch = null;
-        let batchesData = {};
+        let driveLink = "";
+        let batchPassword = "";
+        let batchData = null;
 
-        // Load batches data
-        fetch('batches.json')
-            .then(response => response.json())
-            .then(data => {
-                batchesData = data;
-            })
-            .catch(() => {
-                console.error('Failed to load batches.json');
-            });
+        const params = new URLSearchParams(window.location.search);
+        const batchCode = params.get("code");
 
-        function login() {
-            const batchCode = document.getElementById('batchCode').value.trim();
-            const password = document.getElementById('batchPassword').value.trim();
-            const loginBtn = document.querySelector('.login-btn');
-
-            if (!batchCode || !password) {
-                shakeInput('batchPassword');
-                return;
-            }
-
-            if (!batchesData[batchCode]) {
-                shakeInput('batchCode');
-                return;
-            }
-
-            if (batchesData[batchCode].password !== password) {
-                shakeInput('batchPassword');
-                return;
-            }
-
-            // Success
-            currentBatch = batchesData[batchCode];
-            loginBtn.innerHTML = '<div class="loading"></div>Unlocking...';
-            
-            setTimeout(() => {
-                document.getElementById('loginScreen').style.display = 'none';
-                showMainContent();
-            }, 800);
+        // Load batch data
+        if (batchCode) {
+            fetch("batches.json")
+                .then(response => response.json())
+                .then(data => {
+                    if (data[batchCode]) {
+                        batchData = data[batchCode];
+                        document.getElementById("batchImage").src = batchData.image;
+                        document.getElementById("batchName").innerText = batchData.name;
+                        driveLink = batchData.drive;
+                        batchPassword = batchData.password;
+                    } else {
+                        document.getElementById("batchName").innerText = "❌ Invalid Batch Code";
+                        document.getElementById("memoriesBtn").style.display = "none";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("batchName").innerText = "⚠️ Loading Error";
+                });
+        } else {
+            document.getElementById("batchName").innerText = "❌ Batch Code Missing";
+            document.getElementById("memoriesBtn").style.display = "none";
         }
 
-        function showMainContent() {
-            document.getElementById('header').style.display = 'flex';
-            document.getElementById('mainContent').style.display = 'flex';
-            
-            document.getElementById('batchImage').src = currentBatch.image;
-            document.getElementById('batchName').textContent = currentBatch.name;
-            document.getElementById('memoriesBtn').disabled = false;
-        }
+        function unlock() {
 
-        function openMemories() {
-            if (currentBatch.drive) {
-                const btn = document.getElementById('memoriesBtn');
-                btn.innerHTML = '<div class="loading"></div>Loading...';
-                setTimeout(() => {
-                    window.open(currentBatch.drive, '_blank');
-                    btn.innerHTML = 'Explore Memories';
-                }, 500);
-            }
-        }
+const entered = document.getElem entById("batchPassword").value.trim(); const btn = document.querySelector(".unlock-btn");
 
-        function showForgotPassword(event) {
-            event.preventDefault();
-            document.getElementById('forgotModal').style.display = 'flex';
-        }
+if (entered === batchPassword) {
 
-        function closeForgotPassword() {
-            document.getElementById('forgotModal').style.display = 'none';
-            document.getElementById('forgotBatchCode').value = '';
-            document.getElementById('recoveryCode').value = '';
-        }
+btn.innerHTML = '<div class="loading"></div>Unlocking...'; setTimeout(() => { document.getElementB yld("passwordGate").style.display = "none";
 
-        function recoverPassword() {
-            const batchCode = document.getElementById('forgotBatchCode').value.trim();
-            const recoveryCode = document.getElementById('recoveryCode').value.trim();
+}, 800);
 
-            if (!batchCode || !recoveryCode) {
-                alert('Please enter both Batch Code and Recovery Code');
-                return;
-            }
+} else {
 
-            if (!batchesData[batchCode]) {
-                alert('Batch Code not found');
-                return;
-            }
+document.getElementById("batchPasswo rd").classList.add("error-shake"); setTimeout(() => {
 
-            if (batchesData[batchCode].recovery !== recoveryCode) {
-                alert('Invalid Recovery Code');
-                return;
-            }
+document.getElementById("batchPasswo rd").classList.remove("error-shake"); }, 500); }
 
-            alert(`Password: ${batchesData[batchCode].password}`);
-            closeForgotPassword();
-        }
+}
 
-        function shakeInput(id) {
-            const input = dfunction shakeInput(id) {
-            const input = document.getElementById(id);
-            input.classList.add('error-shake');
-            setTimeout(() => input.classList.remove('error-shake'), 500);
-        }
+function togglePassword() { const input = document.getElemen tById("batchPassword");
 
-        // Enter key support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                if (document.getElementById('forgotModal').style.display === 'flex') {
-                    recoverPassword();
-                } else {
-                    login();
-                }
-            }
-        });
-    </script>
+if (input.type === "password") { input.type = "text"; } else { input.type = "password"; }
+
+}
+function openMemories() {
+
+if (driveLink) {
+
+const btn = document.getEleme
+
+ntById("memoriesBtn");
+
+btn.innerHTML = '<div
+
+class="loading"></div>Loading...;
+
+setTimeout(() => {
+
+window.open(driveLink,
+
+"_blank");
+
+}, 500);
+
+}
+
+}
+
+// Enter key support
+
+document.addEventListener('keydown', function(e) {
+
+if (e.key === 'Enter' && document.getElementById("passw ordGate").style.display !== 'none') {
+
+unlock();
+
+}
+
+});
+
+</script>
+
 </body>
+
 </html>
