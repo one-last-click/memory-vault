@@ -6,7 +6,6 @@
     <title>One Last Click - Memories Forever</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* [KEEP ALL YOUR EXISTING CSS - NO CHANGES NEEDED] */
         :root {
             --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
             --glass-bg: rgba(255, 255, 255, 0.1);
@@ -18,7 +17,11 @@
             --text-secondary: rgba(248, 249, 250, 0.8);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -31,6 +34,7 @@
             overflow-x: hidden;
         }
 
+        /* Premium Animated Background */
         body::before {
             content: "";
             position: fixed;
@@ -52,6 +56,7 @@
             66% { transform: translate(-20px, 20px) scale(0.95); }
         }
 
+        /* Premium Password Gate */
         #passwordGate {
             position: fixed;
             top: 0;
@@ -64,6 +69,12 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .password-box {
@@ -77,12 +88,19 @@
             box-shadow: var(--shadow-glass);
             max-width: 420px;
             width: 90%;
+            position: relative;
             animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
 
         .password-box h2 {
@@ -93,14 +111,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -0.02em;
         }
 
-        .input-group {
+        .password-wrapper {
+            position: relative;
+            display: flex;
             margin-bottom: 1.5rem;
         }
 
-        .input-group input {
-            width: 100%;
+        .password-wrapper input {
+            flex: 1;
             padding: 1.25rem 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid var(--glass-border);
@@ -110,14 +131,39 @@
             font-weight: 500;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            outline: none;
         }
 
-        .input-group input::placeholder { color: rgba(255, 255, 255, 0.6); }
-        .input-group input:focus { 
+        .password-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .password-wrapper input:focus {
             border-color: rgba(255, 255, 255, 0.4);
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
             transform: scale(1.02);
-            outline: none;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+        }
+
+        .eye-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
         }
 
         .unlock-btn {
@@ -130,11 +176,27 @@
             font-weight: 700;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(15px);
-            margin-bottom: 1rem;
+        }
+
+        .unlock-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .unlock-btn:hover::before {
+            left: 100%;
         }
 
         .unlock-btn:hover {
@@ -142,6 +204,7 @@
             box-shadow: var(--shadow-hover);
         }
 
+        /* Premium Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -162,19 +225,30 @@
             gap: 1rem;
             text-decoration: none;
             color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .brand-wrapper:hover {
+            transform: translateY(-2px);
         }
 
         .brand-logo {
             height: 45px;
-            width: auto;
-            object-fit: contain;
+            width: 45px;
+            background: rgba(255,255,255,0.2);
             border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(10px);
         }
 
         .brand-name {
             font-size: 1.4rem;
             font-weight: 700;
+            letter-spacing: -0.02em;
             background: linear-gradient(135deg, var(--text-primary), rgba(255,255,255,0.8));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -189,15 +263,17 @@
             padding: 0.75rem 1.75rem;
             border-radius: 30px;
             font-weight: 600;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             backdrop-filter: blur(10px);
         }
 
         .contact:hover {
             background: rgba(255,255,255,0.2);
             transform: translateY(-3px);
+            box-shadow: var(--shadow-soft);
         }
 
+        /* Premium Main Content */
         .main {
             flex: 1;
             display: flex;
@@ -207,29 +283,36 @@
             padding: 4rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .image-box {
             width: 95%;
             max-width: 800px;
+            overflow: hidden;
             border-radius: 28px;
             box-shadow: var(--shadow-soft);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             margin-bottom: 2rem;
+        }
+
+        .image-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
         }
 
         .image-box img {
             width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 28px;
+            height: 500px;
+            object-fit: cover;
             transition: transform 0.6s ease;
         }
 
-        .image-box:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--shadow-hover); }
-        .image-box:hover img { transform: scale(1.02); }
+        .image-box:hover img {
+            transform: scale(1.05);
+        }
 
         .batch-name {
             font-size: clamp(1.5rem, 3vw, 2.2rem);
@@ -252,10 +335,28 @@
             font-weight: 700;
             font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--shadow-soft);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(15px);
+        }
+
+        .memories-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .memories-btn:hover::before {
+            left: 100%;
         }
 
         .memories-btn:hover {
@@ -263,12 +364,25 @@
             box-shadow: var(--shadow-hover);
         }
 
+        /* Premium Footer with Social Icons */
         footer {
             text-align: center;
             padding: 3rem 2rem;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
         .social-links {
@@ -291,15 +405,51 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: var(--shadow-soft);
         }
 
         .social-btn:hover {
             transform: translateY(-6px) scale(1.1);
             box-shadow: var(--shadow-hover);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.25rem 1.5rem;
+            }
+            
+            .main {
+                padding: 2rem 1rem;
+            }
+            
+            .password-box {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .image-box {
+                max-width: 100%;
+            }
+            
+            .image-box img {
+                height: 350px;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Loading Animation */
         .loading {
             display: inline-block;
             width: 20px;
@@ -311,150 +461,154 @@
             margin-right: 10px;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-
-        .error-shake { animation: shake 0.5s ease-in-out; }
-
-        @media (max-width: 768px) {
-            header { padding: 1rem 1.2rem; flex-direction: column; gap: 1rem; text-align: center; }
-            .main { padding: 2rem 1rem; }
-            .password-box { padding: 2rem 1.5rem; margin: 1rem; width: calc(100% - 2rem); }
-            .image-box { width: 100%; max-width: 100%; margin-bottom: 1.5rem; }
-            .batch-name { font-size: 1.4rem !important; padding: 0 1rem; line-height: 1.3; }
-            .memories-btn { padding: 1rem 3rem; font-size: 1.1rem; min-width: 280px; }
-            .social-links { gap: 1.2rem; }
-            .social-btn { width: 52px; height: 52px; font-size: 1.3rem; }
-        }
-
-        @media (max-width: 480px) {
-            .social-links { flex-direction: column; align-items: center; gap: 1rem; }
-            .social-btn { width: 60px; height: 60px; font-size: 1.5rem; }
-        }
     </style>
 </head>
-<body>
-    <!-- Fixed Login Screen -->
-<div id="passwordGate">
-    <div class="password-box">
-        <h2>🔐 Batch Login</h2>
-        <div class="input-group">
-            <input type="text" id="batchCode" placeholder="Enter Batch Code (User ID)" maxlength="20">
-        </div>
-        <div style="position: relative; margin-bottom: 1.5rem;">
-            <input type="password" id="batchPassword" placeholder="Enter Password" style="padding-right: 50px;">
-            <span class="eye-icon" onclick="togglePassword()" style="right: 15px;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-                </svg>
-            </span>
-        </div>
-        <button class="unlock-btn" onclick="login()">Login</button>
-    </div>
-</div>
 
-    <!-- Header with YOUR LOGO -->
-    <header style="display: none;" id="header">
+<body>
+    <!-- Premium Password Gate -->
+    <div id="passwordGate">
+        <div class="password-box">
+            <h2>🔐 Enter Batch Password</h2>
+            <div class="password-wrapper">
+                <input type="password" id="batchPassword" placeholder="Your secret batch password">
+                <span class="eye-icon" onclick="togglePassword()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </span>
+            </div>
+            <button class="unlock-btn" onclick="unlock()">Enter Memories</button>
+        </div>
+    </div>
+
+    <!-- Premium Header -->
+    <header>
         <a href="#" class="brand-wrapper">
-            <img src="images/logo.png" class="brand-logo" alt="One Last Click" loading="lazy">
+            <div class="brand-logo">👋</div>
             <div class="brand-name">One Last Click</div>
         </a>
         <a href="mailto:onelastclick.olc@gmail.com" class="contact">Contact Us</a>
     </header>
 
-    <!-- Main Content -->
-    <div class="main" style="display: none;" id="mainContent">
+    <!-- Premium Main Content -->
+    <div class="main">
         <div class="image-box">
             <img id="batchImage" src="" alt="Batch Portrait">
         </div>
         <div class="batch-name" id="batchName">Loading...</div>
-        <button class="memories-btn" onclick="openMemories()" id="memoriesBtn" disabled>Explore Memories</button>
+        <button class="memories-btn" onclick="openMemories()" id="memoriesBtn">
+            Explore Memories
+        </button>
     </div>
 
-    <!-- Footer -->
+    <!-- Premium Footer with Clean Social Icons -->
     <footer>
-        <div>Memories preserved forever by <strong>One Last Click</strong></div>
-        <div class="social-links">
-            <a href="https://www.instagram.com/onelastclick.olc/" class="social-btn" target="_blank">📷</a>
-            <a href="https://wa.me/9502342449" class="social-btn" target="_blank">💬</a>
-            <a href="tel:+919502342449" class="social-btn" target="_blank">📞</a>
+        <div class="footer-content">
+            <div class="footer-brand">Memories preserved forever by <strong>One Last Click</strong></div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/onelastclick.olc/" class="social-btn" target="_blank" title="Instagram">
+                    📷
+                </a>
+                <a href="https://wa.me/9502342449" class="social-btn" target="_blank" title="WhatsApp">
+                    💬
+                </a>
+                <a href="tel:+919502342449" class="social-btn" target="_blank" title="Call">
+                    📞
+                </a>
+            </div>
         </div>
     </footer>
 
     <script>
-let currentBatch = null;
-let batchesData = {};
+        let driveLink = "";
+        let batchPassword = "";
+        let batchData = null;
 
-// Load batches.json on page load
-window.addEventListener('load', function() {
-    fetch('batches.json')
-        .then(response => response.json())
-        .then(data => {
-            batchesData = data;
-            console.log('✅ Batches loaded:', Object.keys(batchesData));
-        })
-        .catch(() => console.error('❌ batches.json missing'));
-});
+        const params = new URLSearchParams(window.location.search);
+        const batchCode = params.get("code");
 
-function login() {
-    const batchCode = document.getElementById('batchCode').value.trim();
-    const password = document.getElementById('batchPassword').value.trim();
-    const btn = document.querySelector('.unlock-btn');
+        // Load batch data
+        if (batchCode) {
+            fetch("batches.json")
+                .then(response => response.json())
+                .then(data => {
+                    if (data[batchCode]) {
+                        batchData = data[batchCode];
+                        document.getElementById("batchImage").src = batchData.image;
+                        document.getElementById("batchName").innerText = batchData.name;
+                        driveLink = batchData.drive;
+                        batchPassword = batchData.password;
+                    } else {
+                        document.getElementById("batchName").innerText = "❌ Invalid Batch Code";
+                        document.getElementById("memoriesBtn").style.display = "none";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("batchName").innerText = "⚠️ Loading Error";
+                });
+        } else {
+            document.getElementById("batchName").innerText = "❌ Batch Code Missing";
+            document.getElementById("memoriesBtn").style.display = "none";
+        }
 
-    if (Object.keys(batchesData).length === 0) {
-        alert('⏳ Loading... Please wait');
-        return;
-    }
+        // Enhanced password functions
+        function unlock() {
+            const entered = document.getElementById("batchPassword").value.trim();
+            const btn = document.querySelector(".unlock-btn");
+            
+            if (entered === batchPassword) {
+                btn.innerHTML = '<div class="loading"></div>Unlocking...';
+                setTimeout(() => {
+                    document.getElementById("passwordGate").style.display = "none";
+                }, 800);
+            } else {
+                document.getElementById("batchPassword").classList.add("error-shake");
+                setTimeout(() => {
+                    document.getElementById("batchPassword").classList.remove("error-shake");
+                }, 500);
+            }
+        }
 
-    if (!batchCode) {
-        alert('❌ Enter Batch Code first');
-        return;
-    }
+        function togglePassword() {
+            const input = document.getElementById("batchPassword");
+            
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
 
-    if (!batchesData[batchCode]) {
-        alert('❌ Invalid Batch Code');
-        return;
-    }
+        function openMemories() {
+            if (driveLink) {
+                const btn = document.getElementById("memoriesBtn");
+                btn.innerHTML = '<div class="loading"></div>Loading...';
+                setTimeout(() => {
+                    window.open(driveLink, "_blank");
+                }, 500);
+            }
+        }
 
-    if (batchesData[batchCode].password !== password) {
-        alert('❌ Wrong Password');
-        return;
-    }
-
-    // SUCCESS
-    currentBatch = batchesData[batchCode];
-    btn.innerHTML = '<div class="loading"></div>Unlocking...';
-    
-    setTimeout(() => {
-        document.getElementById('passwordGate').style.display = 'none';
-        document.getElementById('batchImage').src = currentBatch.image;
-        document.getElementById('batchName').textContent = currentBatch.name;
-        document.getElementById('memoriesBtn').disabled = false;
-    }, 800);
-}
-
-function openMemories() {
-    if (currentBatch?.drive) {
-        window.open(currentBatch.drive, '_blank');
-    }
-}
-
-function togglePassword() {
-    const input = document.getElementById('batchPassword');
-    input.type = input.type === 'password' ? 'text' : 'password';
-}
-
-// Enter key support
-document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && document.getElementById('passwordGate').style.display !== 'none') {
-        login();
-    }
-});
-</script>
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById("passwordGate").style.display !== 'none') {
+                unlock();
+            }
+        });
+    </script>
 </body>
 </html>
