@@ -481,24 +481,30 @@
     <!-- Premium Password Gate -->
     <div id="passwordGate">
         <div class="password-box">
-            <h2>🔐 Enter Batch Password</h2>
-            <div class="password-wrapper">
-                <input type="password" id="batchPassword" placeholder="Your secret batch password">
-                <span class="eye-icon" onclick="togglePassword()">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 5C6.5 5 2 9.5 2 12C2 14.5 6.5 19 12 19C17.5 19 22 14.5 22 12C22 9.5 17.5 5 12 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                </span>
-            </div>
-            <button class="unlock-btn" onclick="unlock()">Enter Memories</button>
+            <h2>🔐 Enter Batch Details</h2>
+
+<div class="password-wrapper">
+<input type="text" id="batchCodeInput" placeholder="Batch Code">
+</div>
+
+<div class="password-wrapper">
+<input type="password" id="batchPassword" placeholder="Batch Password">
+
+<span class="eye-icon" onclick="togglePassword()">
+👁
+</span>
+</div>
+
+<button class="unlock-btn" onclick="unlock()">Enter Memories</button>
         </div>
     </div>
 
     <!-- Premium Header -->
     <header>
         <a href="#" class="brand-wrapper">
-            <div class="brand-logo">👋</div>
+           <div class="brand-logo">
+<img src="images/logo.png" alt="One Last Click Logo">
+</div>
             <div class="brand-name">One Last Click</div>
         </a>
         <a href="mailto:onelastclick.olc@gmail.com" class="contact">Contact Us</a>
@@ -535,80 +541,120 @@
 
     <script>
         let driveLink = "";
-        let batchPassword = "";
-        let batchData = null;
+let batchPassword = "";
+let batchData = null;
 
-        const params = new URLSearchParams(window.location.search);
-        const batchCode = params.get("code");
+const params = new URLSearchParams(window.location.search);
+const urlBatchCode = params.get("code");
 
-        // Load batch data
-        if (batchCode) {
-            fetch("batches.json")
-                .then(response => response.json())
-                .then(data => {
-                    if (data[batchCode]) {
-                        batchData = data[batchCode];
-                        document.getElementById("batchImage").src = batchData.image;
-                        document.getElementById("batchName").innerText = batchData.name;
-                        driveLink = batchData.drive;
-                        batchPassword = batchData.password;
-                    } else {
-                        document.getElementById("batchName").innerText = "❌ Invalid Batch Code";
-                        document.getElementById("memoriesBtn").style.display = "none";
-                    }
-                })
-                .catch(() => {
-                    document.getElementById("batchName").innerText = "⚠️ Loading Error";
-                });
-        } else {
-            document.getElementById("batchName").innerText = "❌ Batch Code Missing";
-            document.getElementById("memoriesBtn").style.display = "none";
-        }
+// Auto fill batch code if present
+if(urlBatchCode){
+document.getElementById("batchCodeInput").value = urlBatchCode;
+loadBatch(urlBatchCode);
+}
 
-        // Enhanced password functions
-        function unlock() {
-            const entered = document.getElementById("batchPassword").value.trim();
-            const btn = document.querySelector(".unlock-btn");
-            
-            if (entered === batchPassword) {
-                btn.innerHTML = '<div class="loading"></div>Unlocking...';
-                setTimeout(() => {
-                    document.getElementById("passwordGate").style.display = "none";
-                }, 800);
-            } else {
-                document.getElementById("batchPassword").classList.add("error-shake");
-                setTimeout(() => {
-                    document.getElementById("batchPassword").classList.remove("error-shake");
-                }, 500);
-            }
-        }
+// Load batch data
+function loadBatch(code){
 
-        function togglePassword() {
-            const input = document.getElementById("batchPassword");
-            
-            if (input.type === "password") {
-                input.type = "text";
-            } else {
-                input.type = "password";
-            }
-        }
+fetch("batches.json")
+.then(response => response.json())
+.then(data => {
 
-        function openMemories() {
-            if (driveLink) {
-                const btn = document.getElementById("memoriesBtn");
-                btn.innerHTML = '<div class="loading"></div>Loading...';
-                setTimeout(() => {
-                    window.open(driveLink, "_blank");
-                }, 500);
-            }
-        }
+if(data[code]){
 
-        // Enter key support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && document.getElementById("passwordGate").style.display !== 'none') {
-                unlock();
-            }
-        });
+batchData = data[code];
+
+document.getElementById("batchImage").src = batchData.image;
+document.getElementById("batchName").innerText = batchData.name;
+
+driveLink = batchData.drive;
+batchPassword = batchData.password;
+
+}else{
+
+document.getElementById("batchName").innerText = "❌ Invalid Batch Code";
+document.getElementById("memoriesBtn").style.display = "none";
+
+}
+
+})
+.catch(() => {
+document.getElementById("batchName").innerText = "⚠️ Loading Error";
+});
+
+}
+
+// Unlock function
+function unlock(){
+
+const code = document.getElementById("batchCodeInput").value.trim();
+const entered = document.getElementById("batchPassword").value.trim();
+const btn = document.querySelector(".unlock-btn");
+
+if(!batchData){
+loadBatch(code);
+setTimeout(()=>unlock(),400);
+return;
+}
+
+if(entered === batchPassword){
+
+btn.innerHTML = '<div class="loading"></div>Unlocking...';
+
+setTimeout(()=>{
+document.getElementById("passwordGate").style.display="none";
+},800);
+
+}else{
+
+document.getElementById("batchPassword").classList.add("error-shake");
+
+setTimeout(()=>{
+document.getElementById("batchPassword").classList.remove("error-shake");
+},500);
+
+}
+
+}
+
+// Toggle password
+function togglePassword(){
+
+const input = document.getElementById("batchPassword");
+
+if(input.type === "password"){
+input.type="text";
+}else{
+input.type="password";
+}
+
+}
+
+// Open memories
+function openMemories(){
+
+if(driveLink){
+
+const btn=document.getElementById("memoriesBtn");
+
+btn.innerHTML='<div class="loading"></div>Loading...';
+
+setTimeout(()=>{
+window.open(driveLink,"_blank");
+},500);
+
+}
+
+}
+
+// Enter key support
+document.addEventListener('keydown',function(e){
+
+if(e.key==="Enter" && document.getElementById("passwordGate").style.display!=="none"){
+unlock();
+}
+
+});
     </script>
 </body>
 </html>
