@@ -617,17 +617,19 @@ fetch("batches.json")
 .then(res => res.json())
 .then(data => {
 
-const adminPassword = data.admin.password;
+let adminPassword = "";
+if(data.admin){
+adminPassword = data.admin.password;
+}
 
 if(!data[code]){
 alert("Invalid Batch Code");
 return;
 }
 
-batchData = data[code];
-batchPassword = batchData.password;
+const batchData = data[code];
 
-if(entered === batchPassword || entered === adminPassword){
+if(entered === batchData.password || entered === adminPassword){
 
 document.getElementById("batchImage").src = batchData.image;
 document.getElementById("batchName").innerText = batchData.name;
@@ -651,6 +653,10 @@ document.getElementById("batchPassword").classList.remove("error-shake");
 
 }
 
+})
+.catch(err=>{
+alert("Error loading batch data");
+console.log(err);
 });
 
 }
