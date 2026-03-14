@@ -208,19 +208,17 @@ z-index:-1;
         }
 
         /* Premium Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 3rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glass);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 24px;
+
+background:#f3f4f6;   /* light grey */
+border-bottom:1px solid #dcdcdc;
+
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
 
         .brand-wrapper {
             display: flex;
@@ -353,13 +351,15 @@ transform:scale(1.05);
         
 
         /* Premium Footer with Social Icons */
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
-        }
+        footer{
+margin-top:40px;
+padding:40px 20px;
+
+background:#f3f4f6;   /* same as header */
+border-top:1px solid #dcdcdc;
+
+text-align:center;
+}
 
         .footer-content {
             max-width: 500px;
