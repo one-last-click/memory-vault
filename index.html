@@ -248,16 +248,12 @@ gap:12px;
 text-decoration:none;
 color:var(--text-primary);
 }
-        .brand-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text-primary), rgba(255,255,255,0.8));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
+        .brand-name{
+font-size:1.4rem;
+font-weight:700;
+letter-spacing:-0.02em;
+color:#111;
+}
         .contact {
             font-size: 0.9rem;
             color: var(--text-primary);
@@ -314,36 +310,31 @@ object-fit:contain;
             transform: scale(1.05);
         }
 
-        .batch-name {
-            font-size: clamp(1.5rem, 3vw, 2.2rem);
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            background: linear-gradient(135deg, var(--text-primary), rgba(255,255,255,0.8));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+.batch-name{
+font-size:clamp(1.5rem,3vw,2.2rem);
+font-weight:700;
+letter-spacing:0.05em;
+text-align:center;
+margin-bottom:2.5rem;
+color:#111;
+}
 
-        .memories-btn {
-            padding: 1.25rem 4rem;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
-            color: var(--text-primary);
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: var(--shadow-soft);
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-        }
+     .memories-btn{
+padding:1.25rem 4rem;
+border:none;
+border-radius:50px;
+background:#111;
+color:#fff;
+font-weight:700;
+font-size:1.2rem;
+cursor:pointer;
+transition:0.3s;
+}
 
+.memories-btn:hover{
+background:#333;
+transform:scale(1.05);
+}
         .memories-btn::before {
             content: '';
             position: absolute;
@@ -359,10 +350,7 @@ object-fit:contain;
             left: 100%;
         }
 
-        .memories-btn:hover {
-            transform: translateY(-6px) scale(1.05);
-            box-shadow: var(--shadow-hover);
-        }
+        
 
         /* Premium Footer with Social Icons */
         footer {
