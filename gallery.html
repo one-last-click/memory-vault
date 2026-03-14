@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Batch Gallery</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#111;
+color:white;
+}
+
+/* HEADER */
+
+header{
+height:60px;
+background:#000;
+display:flex;
+align-items:center;
+padding:0 20px;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+height:30px;
+}
+
+.batch-title{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+font-size:18px;
+font-weight:600;
+}
+
+/* GALLERY GRID */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+gap:10px;
+padding:15px;
+}
+
+.gallery img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:6px;
+cursor:pointer;
+transition:.3s;
+}
+
+.gallery img:hover{
+transform:scale(1.05);
+}
+
+/* FULLSCREEN VIEWER */
+
+.viewer{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:9999;
+}
+
+.viewer img{
+max-width:90%;
+max-height:80%;
+}
+
+/* CLOSE BUTTON */
+
+.close{
+position:absolute;
+top:20px;
+right:20px;
+font-size:34px;
+cursor:pointer;
+}
+
+/* DOWNLOAD BUTTON */
+
+.download{
+position:absolute;
+bottom:30px;
+background:white;
+color:black;
+padding:12px 35px;
+border-radius:30px;
+font-weight:bold;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<img src="images/logo.png" class="logo">
+
+<div class="batch-title" id="batchTitle">
+Loading...
+</div>
+
+</header>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="viewer" id="viewer">
+
+<div class="close" onclick="closeViewer()">✕</div>
+
+<img id="viewerImg">
+
+<a id="downloadBtn" class="download" download>
+Download
+</a>
+
+</div>
+
+<script>
+
+/* SECURITY CHECK */
+
+const batchCode = sessionStorage.getItem("batchCode");
+
+if(!batchCode){
+
+document.body.innerHTML =
+"<h2 style='text-align:center;margin-top:100px;'>Access Denied</h2>";
+
+throw new Error("No session batch code");
+
+}
+
+/* LOAD BATCH DATA */
+
+let batchData;
+
+fetch("batches.json")
+.then(res=>res.json())
+.then(data=>{
+
+if(!data[batchCode]){
+
+document.getElementById("batchTitle").innerText="Batch Name Not Found";
+return;
+
+}
+
+batchData=data[batchCode];
+
+document.getElementById("batchTitle").innerText=batchData.name;
+
+loadGallery();
+
+})
+.catch(()=>{
+document.getElementById("batchTitle").innerText="Error Loading Batch";
+});
+
+/* LAZY LOADING SYSTEM */
+
+let loadedImages = 0;
+const loadStep = 30;
+
+function loadGallery(){
+
+loadMoreImages();
+
+}
+
+function loadMoreImages(){
+
+const gallery=document.getElementById("gallery");
+
+for(let i=0;i<loadStep;i++){
+
+loadedImages++;
+
+if(loadedImages > batchData.count) return;
+
+let num=String(loadedImages).padStart(3,"0");
+
+let img=document.createElement("img");
+
+img.loading="lazy";
+
+img.src=batchData.cloud + batchData.folder + "/" + num + ".jpg";
+
+img.onclick=function(){
+openViewer(img.src);
+};
+
+gallery.appendChild(img);
+
+}
+
+}
+
+/* SCROLL DETECTION */
+
+window.addEventListener("scroll",function(){
+
+if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 200){
+
+loadMoreImages();
+
+}
+
+});
+
+/* IMAGE VIEWER */
+
+function openViewer(src){
+
+document.getElementById("viewer").style.display="flex";
+
+document.getElementById("viewerImg").src=src;
+
+document.getElementById("downloadBtn").href=src;
+
+}
+
+/* CLOSE VIEWER */
+
+function closeViewer(){
+
+document.getElementById("viewer").style.display="none";
+
+}
+
+</script>
+
+</body>
+</html>
