@@ -104,22 +104,22 @@ max-height:80%;
 
 /* CLOSE BUTTON */
 
-.close{
-position:absolute;
+.close-btn{
+position:fixed;
+top:20px;
 right:20px;
-top:50%;
-transform:translateY(-50%);
-font-size:26px;
-color:#fff;
-background:rgba(0,0,0,0.4);
-border:none;
-width:40px;
-height:40px;
+width:45px;
+height:45px;
 border-radius:50%;
+background:rgba(0,0,0,0.6);
+color:#ffffff;
+font-size:28px;
+border:none;
 cursor:pointer;
 display:flex;
 align-items:center;
 justify-content:center;
+z-index:1000;
 }
 
 /* DOWNLOAD BUTTON */
@@ -155,7 +155,7 @@ Loading...
 
 <div class="viewer" id="viewer">
 
-<div class="close" onclick="closeViewer()">✕</div>
+<div class="close-btn" onclick="closeViewer()">X</div>
 
 <img id="viewerImg">
 
