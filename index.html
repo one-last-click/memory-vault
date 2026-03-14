@@ -22,16 +22,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-
-        body{
+body{
 font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 background:#ffffff;
-min-height:100vh;
-color:#000;
+height:100vh;
+overflow:hidden;   /* disables scrolling */
 display:flex;
 flex-direction:column;
 position:relative;
-overflow-x:hidden;
 }
 
 /* logo watermark */
@@ -49,7 +47,7 @@ background-size:contain;
 background-repeat:no-repeat;
 background-position:center;
 
-opacity:0.06;
+opacity:0.05;
 pointer-events:none;
 z-index:-1;
 }
@@ -270,18 +268,14 @@ transition:0.25s;
 transform:scale(1.05);
 }
         /* Premium Main Content */
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
+      .main{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
         .image-box{
 width:95%;
 max-width:600px;
