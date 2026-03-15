@@ -16,6 +16,7 @@ min-height:100vh;
 font-family:'Inter',sans-serif;
 display:flex;
 flex-direction:column;
+padding-bottom:60px;
 }
 
 /* LOGO WATERMARK */
@@ -59,28 +60,13 @@ text-align:center;
 flex:1;
 }
 
-/* MAIN LAYOUT */
-
-.main{
-display:grid;
-grid-template-columns:1fr 1fr;
-height:calc(100vh - 60px);
-}
-
-/* SCROLL AREAS */
-
-.images-container,
-.videos-container{
-overflow-y:auto;
-padding:15px;
-}
-
 /* IMAGE GRID */
 
 .gallery{
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
 gap:10px;
+padding:15px;
 }
 
 .gallery img{
@@ -102,6 +88,7 @@ transform:scale(1.05);
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:15px;
+padding:15px;
 }
 
 .videos iframe{
@@ -111,7 +98,17 @@ border:none;
 border-radius:6px;
 }
 
-/* FULLSCREEN VIEWER */
+/* MOBILE VIDEO */
+
+@media(max-width:700px){
+
+.videos{
+grid-template-columns:1fr;
+}
+
+}
+
+/* VIEWER */
 
 .viewer{
 position:fixed;
@@ -132,7 +129,7 @@ max-width:90%;
 max-height:80%;
 }
 
-/* CLOSE */
+/* CLOSE BUTTON */
 
 .close-btn{
 position:fixed;
@@ -151,7 +148,7 @@ align-items:center;
 justify-content:center;
 }
 
-/* NAVIGATION */
+/* NAV BUTTONS */
 
 .nav{
 position:absolute;
@@ -183,18 +180,26 @@ font-weight:bold;
 text-decoration:none;
 }
 
-/* MOBILE */
+/* FOOTER NAV */
 
-@media(max-width:700px){
-
-.main{
-grid-template-columns:1fr;
+.footerTabs{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:flex;
+justify-content:space-around;
+background:#000;
+padding:10px 0;
 }
 
-.videos{
-grid-template-columns:1fr;
-}
-
+.footerTabs button{
+background:none;
+border:none;
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
 }
 
 </style>
@@ -208,21 +213,24 @@ grid-template-columns:1fr;
 <img src="images/logo.png" class="logo">
 
 <div class="batch-title" id="batchTitle">
-Loading...
+Batch Memories
 </div>
 
 </header>
 
 
-<div class="main">
+<!-- IMAGES -->
 
-<div class="images-container">
+<div id="imagesSection">
 
 <div class="gallery" id="gallery"></div>
 
 </div>
 
-<div class="videos-container">
+
+<!-- VIDEOS -->
+
+<div id="videosSection" style="display:none">
 
 <div class="videos">
 
@@ -234,8 +242,8 @@ Loading...
 
 </div>
 
-</div>
 
+<!-- VIEWER -->
 
 <div class="viewer" id="viewer">
 
@@ -248,6 +256,17 @@ Loading...
 <button class="nav right" onclick="nextImage()">➡</button>
 
 <a id="downloadBtn" class="download" download>Download</a>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footerTabs">
+
+<button onclick="showImages()">Images</button>
+
+<button onclick="showVideos()">Videos</button>
 
 </div>
 
@@ -270,6 +289,7 @@ throw new Error("No session batch code");
 /* IMAGE SYSTEM */
 
 const cloud = "https://yourcloud/batch/";
+
 let loadedImages = 0;
 let currentIndex = 1;
 
@@ -305,13 +325,12 @@ loadMoreImages();
 
 /* SCROLL LOAD */
 
-document.querySelector(".images-container")
-.addEventListener("scroll",function(){
+window.addEventListener("scroll",function(){
 
-let box=this;
+if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 200){
 
-if(box.scrollTop + box.clientHeight >= box.scrollHeight - 200){
 loadMoreImages();
+
 }
 
 });
@@ -349,20 +368,66 @@ document.getElementById("viewer").style.display="none";
 /* NAVIGATION */
 
 function nextImage(){
+
 currentIndex++;
+
 loadImage();
+
 }
 
 function prevImage(){
+
 if(currentIndex>1){
+
 currentIndex--;
+
 loadImage();
-}
+
 }
 
-/* SWIPE */
+}
+
+/* SWITCH SECTIONS */
+
+function showImages(){
+
+document.getElementById("imagesSection").style.display="block";
+document.getElementById("videosSection").style.display="none";
+
+}
+
+function showVideos(){
+
+document.getElementById("imagesSection").style.display="none";
+document.getElementById("videosSection").style.display="block";
+
+}
+
+/* SWIPE SECTIONS */
 
 let startX=0;
+
+document.addEventListener("touchstart",e=>{
+
+startX=e.changedTouches[0].screenX;
+
+});
+
+document.addEventListener("touchend",e=>{
+
+let endX=e.changedTouches[0].screenX;
+
+if(endX < startX - 50){
+showVideos();
+}
+
+if(endX > startX + 50){
+showImages();
+}
+
+});
+
+/* SWIPE VIEWER */
 
 document.getElementById("viewer")
 .addEventListener("touchstart",e=>{
