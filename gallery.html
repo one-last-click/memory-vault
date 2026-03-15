@@ -223,11 +223,10 @@ Loading...
 
 <button class="close-btn" onclick="closeViewer()">X</button>
 
-<button class="nav left" onclick="prevImage()">⬅</button>
-
 <img id="viewerImg">
 
-<button class="nav right" onclick="nextImage()">➡</button>
+<button class="nav left" onclick="prevImage()">❮</button>
+<button class="nav right" onclick="nextImage()">❯</button>
 
 <a id="downloadBtn" class="download" download>Download</a>
 
@@ -286,15 +285,20 @@ loadVideos();
 
 /* LOAD IMAGES */
 
-function loadImages(){
+function loadImage(){
 
-const cloud=batchData.cloud;
-const folder=batchData.folder;
-const count=batchData.count;
+let src = `https://res.cloudinary.com/${cloud}/image/upload/${folder}/${currentIndex}`;
 
-for(let i=1;i<=count;i++){
-let src = `https://res.cloudinary.com/${cloud}/image/upload/v1773595929/${i}`;
-images.push(src);
+document.getElementById("viewerImg").src = src;
+
+let downloadURL =
+`https://res.cloudinary.com/${cloud}/image/upload/fl_attachment/${folder}/${currentIndex}`;
+
+const downloadBtn = document.getElementById("downloadBtn");
+
+downloadBtn.href = downloadURL;
+
+downloadBtn.setAttribute("download", `memory_${currentIndex}.jpg`);
 
 }
 
