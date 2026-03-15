@@ -8,7 +8,8 @@
     "drive": "https://drive.google.com/drive/folders/1eoPqfjztWn35b6xYtNIHxp2UE3OfoW1P",
     "password": "12345678",
 "recovery" : "11223344",
-"cloud": "",
+"cloud": "https://res.cloudinary.com/dradluvjq/image/upload/2026A00001",
+    "folder":"2026A00001",
 "cloudReady": true
   },
   "2026A00002": {
