@@ -14,10 +14,17 @@
 "cloudReady": true,
     "videos": ["a","b","c","d","e","f"]
   },
-  "2026A00002": {
-    "name": "CSE Batch 2026",
-    "image": "images/2026A00002.jpg",
-    "drive": "https://drive.google.com/drive/folders/CSE_FOLDER_ID"
+  "2026HBD001": {
+        "name": "Happy Birthday Sri",
+    "image": "images/2026HBD001",
+    "drive": "https://drive.google.com/drive/folders/1eoPqfjztWn35b6xYtNIHxp2UE3Ofo",
+    "password": "26031994",
+"recovery" : "26031994",
+"cloud": "",
+    "folder":"",
+    "count":42,
+"cloudReady": false ,
+    "videos": ["a","b","c","d","e","f"]
   }
 
 }
